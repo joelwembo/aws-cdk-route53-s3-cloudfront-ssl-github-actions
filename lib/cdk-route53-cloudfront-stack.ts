@@ -15,7 +15,7 @@ export class CloudFrontRoute53Stack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-      const domain = 'prodxcloud.net';
+      const domain = 'toplivecommerce.com';
       const siteDomain = 'www' + '.' + domain;
 
       const zone = route53.HostedZone.fromLookup(this, 'Zone', { domainName: domain });
