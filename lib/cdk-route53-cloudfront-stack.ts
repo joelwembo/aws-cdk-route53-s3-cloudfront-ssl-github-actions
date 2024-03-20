@@ -20,16 +20,16 @@ export class CloudFrontRoute53Stack extends Stack {
 
       const zone = route53.HostedZone.fromLookup(this, 'Zone', { domainName: domain });
 
-        // const certificate = new acm.DnsValidatedCertificate(this, 'SiteCertificate', {
-        //   domainName: domain,
-        //   subjectAlternativeNames: ['*.' + domain],
-        //       hostedZone: zone,
-        //       region: 'ap-southeast-1', 
-        // });
+        const certificate = new acm.DnsValidatedCertificate(this, 'SiteCertificate', {
+          domainName: domain,
+          subjectAlternativeNames: ['*.' + domain],
+              hostedZone: zone,
+              region: 'ap-southeast-1', 
+        });
 
-        // certificate.applyRemovalPolicy(RemovalPolicy.DESTROY)
+        certificate.applyRemovalPolicy(RemovalPolicy.DESTROY)
 
-        // new CfnOutput(this, 'Certificate', { value: certificate.certificateArn });
+        new CfnOutput(this, 'Certificate', { value: certificate.certificateArn });
 
         const siteBucket = new s3.Bucket(this, 'SiteBucket', {
           bucketName: siteDomain,
@@ -44,7 +44,7 @@ export class CloudFrontRoute53Stack extends Stack {
           new CfnOutput(this, 'Bucket', { value: siteBucket.bucketName });
 
         const distribution = new cloudfront.Distribution(this, 'SiteDistribution', {
-          // certificate: certificate,
+          certificate: certificate,
           defaultRootObject: "index.html",
           domainNames: [siteDomain, domain],
           minimumProtocolVersion: cloudfront.SecurityPolicyProtocol.TLS_V1_2_2021,
