@@ -24,7 +24,7 @@ export class CloudFrontRoute53Stack extends Stack {
           domainName: domain,
           subjectAlternativeNames: ['*.' + domain],
               hostedZone: zone,
-              region: 'ap-southeast-1', 
+              region: 'us-east-1', 
         });
 
         certificate.applyRemovalPolicy(RemovalPolicy.DESTROY)

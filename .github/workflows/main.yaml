@@ -39,4 +39,5 @@ jobs:
         run: npx cdk bootstrap
 
       - name: Deploy AWS CDK Stack
-        run: "npx cdk deploy --require-approval never --no-asset-metadata"
+        run: npx cdk doctor
+        # run: "npx cdk deploy --require-approval never --no-asset-metadata"
