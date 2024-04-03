@@ -6,5 +6,9 @@
   "hosted-zone:account=059978233428:domainName=toplivecommerce.com:region=us-east-1": {
     "Id": "/hostedzone/Z09461433R12V32QMAMQD",
     "Name": "toplivecommerce.com."
+  },
+  "hosted-zone:account=059978233428:domainName=prodxcloud.net:region=us-east-1": {
+    "Id": "/hostedzone/Z05927822ZPMAH900H861",
+    "Name": "prodxcloud.net."
   }
 }

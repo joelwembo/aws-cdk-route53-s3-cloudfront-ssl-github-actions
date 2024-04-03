@@ -16,15 +16,13 @@ export class CloudFrontRoute53Stack extends Stack {
     super(scope, id, props);
 
       const domain = 'toplivecommerce.com';
-      const siteDomain = 'www' + '.' + domain;
+      const siteDomain = domain;
 
       const zone = route53.HostedZone.fromLookup(this, 'Zone', { domainName: domain });
 
-        const certificate = new acm.DnsValidatedCertificate(this, 'SiteCertificate', {
-          domainName: domain,
-          subjectAlternativeNames: ['*.' + domain],
-              hostedZone: zone,
-              region: 'us-east-1', 
+        const certificate = new acm.Certificate(this, 'SiteCertificate', {
+          domainName: siteDomain,  
+          validation: acm.CertificateValidation.fromEmail(),
         });
 
         certificate.applyRemovalPolicy(RemovalPolicy.DESTROY)
@@ -35,7 +33,7 @@ export class CloudFrontRoute53Stack extends Stack {
           bucketName: siteDomain,
           publicReadAccess: true,
           removalPolicy: RemovalPolicy.DESTROY,
-          autoDeleteObjects: true,
+          // autoDeleteObjects: true,
           blockPublicAccess: BlockPublicAccess.BLOCK_ACLS,
           accessControl: BucketAccessControl.BUCKET_OWNER_FULL_CONTROL,
           websiteIndexDocument: 'index.html',
@@ -48,14 +46,14 @@ export class CloudFrontRoute53Stack extends Stack {
           defaultRootObject: "index.html",
           domainNames: [siteDomain, domain],
           minimumProtocolVersion: cloudfront.SecurityPolicyProtocol.TLS_V1_2_2021,
-          errorResponses:[
-            {
-              httpStatus: 404,
-              responseHttpStatus: 404,
-              responsePagePath: 'error.html',
-              ttl: Duration.minutes(30),
-            }
-          ],
+          // errorResponses:[
+          //   {
+          //     httpStatus: 403,
+          //     responseHttpStatus: 403,
+          //     responsePagePath: '/error.html',
+          //     ttl: Duration.minutes(30),
+          //   }
+          // ],
           defaultBehavior: {
             origin: new cloudfront_origins.S3Origin(siteBucket),
             compress: true,
