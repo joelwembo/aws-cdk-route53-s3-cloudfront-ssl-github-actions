@@ -64,11 +64,12 @@ export class CloudFrontRoute53Stack extends Stack {
 
         new CfnOutput(this, 'DistributionId', { value: distribution.distributionId });
 
-        new route53.ARecord(this, 'WWWSiteAliasRecord', {
-          zone,
-          recordName: siteDomain,
-          target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(distribution))
-        });
+        // new route53.ARecord(this, 'WWWSiteAliasRecord', {
+        //   zone,
+        //   recordName: siteDomain,
+        //   target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(distribution))
+        // });
+        
         new route53.ARecord(this, 'SiteAliasRecord', {
           zone,
           recordName: domain,
